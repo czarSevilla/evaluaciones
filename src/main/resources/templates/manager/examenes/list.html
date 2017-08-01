@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">     
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+                   
+             <ol class="breadcrumb">
+              <li><a href="/evaluaciones">Inicio</a></li>
+              <li class="active">Ex&aacute;menes</li>
+            </ol>
+            
+            <div th:replace="fragments/layout/header :: common_messages"></div>
+		
+			<div th:replace="fragments/layout/header :: common_delete_confirm"></div>
+		
+		<div class="panel panel-default">
+		  <div class="panel-heading">			
+		  	<div class="row">
+		  		<div class="col-md-6">
+		  			<form id="form-eval" class="form-inline" method="POST" th:action="@{/manager/examenes/}">
+			<div class="form-group">
+				<input type="text" class="form-control" id="name"
+					placeholder="Nombre" name="name" th:value="${examDto.name}" />
+				<input type="hidden" id="currentPage" name="page" th:value="${examDto.page}" />
+				<input type="hidden" name="size" th:value="${examDto.size}" />
+				<input type="hidden" name="direction" th:value="${examDto.direction}" />
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			</div>
+			<button type="submit" class="btn btn-default">Buscar</button>
+		</form>
+		  		</div>
+		  		<div class="col-md-6 text-right">
+		  			<a class="btn btn-default" th:href="@{/manager/examenes/agregar}" title="Agregar"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</a>
+		  		</div>
+		  	</div>
+			
+		
+		  </div>
+		  <div class="panel-body">
+		    
+		
+		
+
+		<table class="table table-hover" th:unless="${examDto.totalItems == 0}">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>N&uacute;mero de<br/>preguntas</th>
+					<th>Calificaci&oacute;n m&iacute;nima<br/>para aprobaci&oacute;n</th>
+					<th>Minutos para<br/>aplicaci&oacute;n</th>
+					<th>Categor&iacute;as</th>					
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="exam : ${examDto.exams}">
+					<td th:text="${exam.name}"></td>
+					<td th:text="${exam.questions}"></td>
+					<td th:text="${exam.passPercent * 100}"></td>
+					<td th:text="${exam.examMinutes}"></td>
+					<td>
+						<ul class="list-unstyled">
+							<li th:each="cat : ${exam.categories}" th:text="${cat.description}"></li>
+						</ul>
+					</td>
+					<td><button type="button" class="btn btn-default btn-sm"
+							title="editar" th:onclick='|EVAL.edit("idExam", ${exam.idExam});|'>
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button></td>
+					<td>
+					<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".confirm-delete" title="borrar" th:onclick='|EVAL.toDelete("idExam", ${exam.idExam});|'><span class="glyphicon glyphicon-remove"></span></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<form method="POST" id="edit-form" th:action="@{/manager/examenes/editar}" >
+			<input type="hidden" name="idExam" id="idExam" />
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		</form>
+		
+		<form method="POST" id="delete-form" th:action="@{/manager/examenes/borrar}" >
+			<input type="hidden" name="idExam" id="idExam" />
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		</form>
+		
+		<br/>
+		<div class="alert alert-info" th:unless="${examDto.totalItems != 0}">No se encontraron elementos</div>
+		  </div>
+		  <div class="panel-footer" style="padding:0 1em;">
+				<nav aria-label="Page navigation" th:unless="${examDto.totalItems == 0}">
+		  <ul class="pagination">
+		    <li th:class="${examDto.page == 0 ? 'disabled' : ''}">
+		      <a th:onclick="|EVAL.changePage(${examDto.page - 1});|"  aria-label="Anterior" href="#"
+		      	th:unless="${examDto.page == 0}">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		      <span aria-hidden="true" th:unless="${examDto.page != 0}">&laquo;</span>
+		    </li>
+		    <li th:each="pag : ${#numbers.sequence(0, examDto.totalPages - 1)}"
+		    	th:class="${pag == examDto.page ? 'active' : ''}">
+		    	<a th:onclick="|EVAL.changePage(${pag});|" th:unless="${pag == examDto.page}" th:text="${pag + 1}" href="#"></a>
+		    	<span th:text="${pag + 1}" th:unless="${pag != examDto.page}"></span>
+		    </li>
+		    <li th:class="${examDto.page == examDto.totalPages - 1 ? 'disabled' : ''}">
+		      <a th:onclick="|EVAL.changePage(${examDto.page + 1});|" aria-label="Siguiente"
+		      	th:unless="${examDto.page == examDto.totalPages - 1}" href="#">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		      <span aria-hidden="true" th:unless="${examDto.page != examDto.totalPages - 1}">&raquo;</span>
+		    </li>
+		  </ul>
+		</nav>
+		</div>
+		</div>
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

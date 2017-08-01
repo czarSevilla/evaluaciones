@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <table>
+        <tr>
+            <td><span style="font-size:large;font-weight:bolder;margin:2em 0;text-align:center;">Reiniciar Password</span></td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr><td colspan="2">Hola <span th:text="${name}"></span></td></tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr><td colspan="2">Se solicit&oacute; el reinicio de tu password. Ahora tienes que ingresar con el siguiente:</td></tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr><td>Password:&nbsp;&nbsp;</td><td th:text="${password}"></td></tr>     
+                    <tr><td colspan="2">&nbsp;</td></tr>  
+                    <tr><td colspan="2">Se recomienda cambiar el password despu&eacute;s ingresar de nuevo al sistema.</td></tr>                 
+                </table>     
+            </td>
+        </tr>
+        <tr>
+            <td><img th:src="|${urlEvaluation}/img/footer.png|" /></td>
+        </tr>
+        <tr>
+            <td style="font-size:xx-small;">
+                Este mensaje es &uacute;nicamente para el titular designado y puede contener informaci&oacute;n restringida altamente confidencial o confidencial. Por favor consulte nuestro aviso de privacidad en www.qacg.com
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

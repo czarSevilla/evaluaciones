@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 8%;">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">&nbsp;</div>
+            <div class="col-md-4">
+            
+                
+		        <div class="panel panel-default">
+		              <div class="panel-heading">
+                           <div class="panel-title">
+                               <img th:src="@{/img/ev.png}" /><b>Evaluaci&oacute;n</b>&nbsp;<small>login</small>
+                           </div>
+                       </div>
+                       <div class="panel-body">
+		        <form th:action="@{/login}" method="post" class="form">       
+		          <div class="form-group">
+		              <input type="text" id="userName" name="username" class="form-control input-sm chat-input" placeholder="username" />
+		          </div>    
+		          <div class="form-group">
+		              <input type="password" id="userPassword" name="password" class="form-control input-sm chat-input" placeholder="password" />
+		          </div> 
+		          <input type="hidden" name="remember-me" value="1" />
+		          <input type="submit" value="Sign In"  class="btn btn-primary btn-md"  />
+		        </form>
+		        <div th:if="${param.error}" class="bg-danger" style="text-align:center;margin-top:10px;">
+                    Username o password inv&aacute;lidos.
+                </div>
+                <div th:if="${param.logout}" class="bg-info" style="text-align:center;margin-top:10px;">
+                    Sali&oacute; del sistema.
+                </div>
+		        </div>
+                </div>
+            </div>
+            <div class="col-md-4">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+        
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

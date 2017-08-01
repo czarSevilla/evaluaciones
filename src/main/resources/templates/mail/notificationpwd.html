@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <table>
+        <tr>
+            <td><span style="font-size:xx-large;font-weight:bolder;margin:2em 0;text-align:center;">Evaluaci&oacute;n</span></td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr><td colspan="2">Hola <span th:text="${name}"></span></td></tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr><td colspan="2">Como parte del proceso de selecci&oacute;n se le solicita realizar una evaluaci&oacute;n. A continuaci&oacute;n le proporcionamos los datos de acceso.</td></tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr><td>Direcci&oacute;n de la evaluaci&oacute;n:&nbsp;&nbsp;</td><td th:text="${urlEvaluation}"></td></tr>
+                    <tr><td>Usuario de acceso:&nbsp;&nbsp;</td><td th:text="${username}"></td></tr>
+                    <tr><td>Password:&nbsp;&nbsp;</td><td th:text="${password}"></td></tr>                        
+                    <tr><td>Fecha de expiraci&oacute;n:&nbsp;&nbsp;</td><td th:text="${#dates.format(expirationDate, 'dd/MM/yyyy')}"></td></tr>
+                </table>     
+            </td>
+        </tr>
+        <tr>
+            <td><img th:src="|${urlEvaluation}/img/footer.png|" /></td>
+        </tr>
+        <tr>
+            <td style="font-size:xx-small;">
+                Este mensaje es &uacute;nicamente para el titular designado y puede contener informaci&oacute;n restringida altamente confidencial o confidencial. Por favor consulte nuestro aviso de privacidad en www.qacg.com
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">     
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+                   
+           <ol class="breadcrumb">
+              <li><a href="/evaluaciones">Inicio</a></li>
+              <li><a th:href="@{/manager/evaluaciones}">Evaluaciones</a></li>
+              <li class="active">Generar</li>
+            </ol>
+            
+            <form method="POST" th:action="@{/manager/evaluaciones/generar}">
+                <input type="hidden" name="step" value="1" />
+                <div class="form-group">
+                    <label for="source">Generar a partir de:</label>
+                    <select name="source" class="form-control">
+	                    <option value="EXAM">Examen</option>
+	                    <option value="CATEGORIES">Categor&iacute;as</option>
+	                </select>
+                </div>                
+                <button type="submit" class="btn btn-primary"><span class="pull-right glyphicon glyphicon-triangle-right"></span>&nbsp;Siguiente</button>
+            </form>
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

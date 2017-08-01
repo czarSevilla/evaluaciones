@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">     
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+                   
+           <ol class="breadcrumb">
+              <li><a href="/evaluaciones">Inicio</a></li>
+              <li><a th:href="@{/manager/evaluaciones}">Evaluaciones</a></li>
+              <li class="active">Generar</li>
+            </ol>
+            
+            <form method="POST" id="form-generate-eval" th:action="@{/manager/evaluaciones/generar}" >
+                <input type="hidden" name="step" value="2" />
+                <input type="hidden" name="source" th:value="${form.source}"/>
+                <div class="form-group">
+                    <label for="source">Generar a partir de:</label>
+                    <select disabled="disabled" class="form-control">
+	                    <option th:text="${form.source.description}"></option>
+	                </select>
+                </div>  
+                <div class="form-group" th:if="${not #lists.isEmpty(exams)}">
+                    <label for="idExam">Examen:</label>
+                    <select name="idExam" class="form-control">
+                        <option th:each="ex : ${exams}" th:value="${ex.getKey()}" th:text="${ex.getValue()}"></option>
+                    </select>
+                </div>  
+                <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
+                    <label for="idCategories">Categor&iacute;as:</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-5">Todas las Categor&iacute;as</div>
+                                <div class="col-md-2">&nbsp;</div>
+                                <div class="col-md-5">Categor&iacute;as Seleccionadas</div>    
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <select id="all-categories" multiple="multiple" class="form-control"><option th:each="cat : ${categories}" th:value="${cat.getKey()}" th:text="${cat.getValue()}"></option></select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="button-group">
+		                                <button type="button" class="btn btn-primary btn-xs" title="Quitar todas" onclick="EVAL.selectAll('ids-categories', 'all-categories');">
+		                                    <span class="glyphicon glyphicon-fast-backward"></span>
+		                                </button>
+		                                <button type="button" class="btn btn-primary btn-xs" title="Quitar seleccionadas" onclick="EVAL.selectSome('ids-categories', 'all-categories');">
+		                                    <span class="glyphicon glyphicon-step-backward"></span>
+		                                </button>
+		                                <button type="button" class="btn btn-primary btn-xs" title="Agregar seleccionadas" onclick="EVAL.selectSome('all-categories', 'ids-categories');">
+		                                    <span class="glyphicon glyphicon-step-forward"></span>
+		                                </button>
+		                                <button type="button" class="btn btn-primary btn-xs" title="Agregar todas" onclick="EVAL.selectAll('all-categories', 'ids-categories');">
+		                                    <span class="glyphicon glyphicon-fast-forward"></span>
+		                                </button>
+		                            </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <select id="ids-categories" name="idsCategories" multiple="multiple" class="form-control" required="required"></select>
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div> 
+                <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
+                    <label for="name">Nombre de la evaluaci&oacute;n:</label>
+                    <input type="text" name="name" required="required" class="form-control" maxlength="100" /> 
+                </div>    
+                <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
+                    <label for="questions">Preguntas:</label>
+                    <input type="number" name="questions" required="required" class="form-control" /> 
+                </div>
+                <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
+                    <label for="passPercent">Porcentaje de aciertos para aprobaci&oacute;n:</label>
+                    <input type="number" name="passPercent" required="required" value="60" class="form-control" min="60" max="100" /> 
+                </div>
+                <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
+                    <label for="evalMinutes">Tiempo de aplicaci&oacute;n en minutos:</label>
+                    <input type="number" name="evalMinutes" required="required" value="120" class="form-control" min="1" max="300" /> 
+                </div>
+                <div class="form-group">
+                    <label for="nameApplicant">Nombre del aplicante:</label>
+                    <input type="text" name="nameApplicant" required="required" class="form-control" maxlength="100" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email del aplicante:</label>
+                    <input type="email" name="email" required="required" class="form-control" maxlength="100"/>
+                </div>         
+                <button type="button" class="btn btn-primary" th:onclick="|EVAL.beforeSubmit('form-generate-eval', 'ids-categories');|">Generar</button>
+            </form>
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

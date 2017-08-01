@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/layout/header :: common_header"></head>
+<body>
+	<div class="container" id="mainContainer">
+		<div th:replace="fragments/layout/header :: common_logout"></div>
+
+		<ol class="breadcrumb">
+			<li><a href="/evaluaciones">Inicio</a></li>
+			<li><a th:href="@{/manager/categorias/}">Categor&iacute;as</a></li>
+			<li class="active">Editar</li>
+		</ol>
+		
+		<div th:replace="fragments/layout/header :: common_messages"></div>
+		
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Editar Categor&iacute;a</h3>
+		  </div>
+		  <div class="panel-body">
+		    	<form class="form" method="POST" action="update">
+		    		<div class="form-group">
+		    			<label for="description">Descripci&oacute;n</label>
+		    			<input type="text" class="form-control" name="description" th:value="${category.description}" required="required" />
+		    			<input type="hidden" name="idCategory" th:value="${category.idCategory}" />
+		    			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    		</div>
+		    		<button type="submit" class="btn btn-primary">Editar</button>
+		    	</form>
+		  </div>
+		</div>
+		
+		
+</div>
+	<footer th:replace="fragments/layout/header :: common_footer"></footer>
+</body>
+</html>

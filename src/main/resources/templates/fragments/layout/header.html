@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:fragment="common_header">
+        <title>Evaluaci&oacute;n</title>
+        <link rel="stylesheet" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="../../css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" />
+        <link rel="stylesheet" href="../../css/bootstrap-datetimepicker.min.css" th:href="@{/css/bootstrap-datetimepicker.min.css}" />
+        <link rel="stylesheet" href="../../css/evaluaciones.css" th:href="@{/css/evaluaciones.css}" />
+    </head>
+    <body>
+        <div class="container-fluid" id="mainContainer">
+            	
+            	<ul class="nav navbar-right nav-custom" th:fragment="common_logout">
+				  <li role="presentation" class="dropdown">
+				    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+				      <span sec:authentication="name"></span> <span class="caret"></span>
+				    </a>
+				    <ul class="dropdown-menu">
+				    	<li>
+				     		<form th:action="@{/perfil}" method="POST">
+				     			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				     			<button class="btn btn-link"><span class="glyphicon glyphicon-user"></span> Perfil</button>
+				     		</form>
+				     	</li>
+				     	<li>
+				     		<form th:action="@{/logout}" method="POST">
+				     			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				     			<button class="btn btn-link"><span class="glyphicon glyphicon-log-out"></span> Salir</button>
+				     		</form>
+				     	</li>				     	
+				    </ul>
+				  </li>
+				</ul>
+				
+            <div id="div-messages" th:fragment="common_messages">
+            	<div id="div-info" class="alert alert-success" th:text="${message}" th:unless="${message == null}"></div>
+            	<div id="div-error" class="alert alert-danger" th:text="${errorMessage}" th:unless="${errorMessage == null}"></div>
+				<script type="text/javascript" th:unless="${message == null}">
+					setTimeout(function(){
+					  	$('#div-info').remove();
+					}, 3000);
+				</script>
+            </div>
+            
+            <div class="modal fade confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myConfirmModal" th:fragment="common_delete_confirm">
+		  <div class="modal-dialog modal-sm" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Eliminar</h4>
+			      </div>
+			      <div class="modal-body">
+		      <div class="row">
+		      	<div class="col-md-12" style="margin:0.5em 0.5em 2em 0.5em;">&iquest;Est&aacute; seguro de eliminar el registro?</div>
+		      </div>
+		      <div class="row">
+		      	<div class="col-md-6 text-center"><button class="btn btn-primary" data-dismiss="modal" onclick="EVAL.doDelete();">Aceptar</button></div>
+		      	<div class="col-md-6 text-center"><button class="btn btn-default" data-dismiss="modal">Cancelar</button></div>
+		      </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+            <div class="container"></div>
+        </div>
+        <footer th:fragment="common_footer">
+            <script src="../../js/jquery.min.js" th:src="@{/js/jquery.min.js}" ></script>
+	        <script src="../../js/jquery.min-ui.js" th:src="@{/js/jquery-ui.min.js}" ></script>   
+	        <script src="../../js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}" ></script>       
+	        <script src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
+	        <script src="../../js/jquery.countdown.min.js" th:src="@{/js/jquery.countdown.min.js}" ></script>
+	        <script src="../../js/bootstrap-datetimepicker.min.js" th:src="@{/js/bootstrap-datetimepicker.min.js}" ></script>
+	        <script src="../../js/evaluaciones.js" th:src="@{/js/evaluaciones.js}" ></script>	        
+        </footer>
+    </body>
+</html>

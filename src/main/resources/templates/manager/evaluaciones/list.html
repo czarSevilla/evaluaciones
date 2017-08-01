@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">     
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+                   
+           <ol class="breadcrumb">
+              <li><a href="/evaluaciones">Inicio</a></li>
+              <li class="active">Evaluaciones</li>
+            </ol>
+            
+            <div th:replace="fragments/layout/header :: common_messages"></div>
+            
+            
+            <div class="panel panel-default">
+		  <div class="panel-heading">			
+		  	<div class="row">
+		  		<div class="col-md-8">
+		  			<form id="form-eval" class="form-inline" method="POST" th:action="@{/manager/evaluaciones}">
+			<div class="form-group">
+				<input type="text" class="form-control" id="name"
+					placeholder="Aplicante" name="name" th:value="${evalDto.name}" />
+				<input type="hidden" id="currentPage" name="page" th:value="${evalDto.page}" />
+				<input type="hidden" name="size" th:value="${evalDto.size}" />
+				<input type="hidden" name="direction" th:value="${evalDto.direction}" />
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			</div>
+			<div class="form-group">
+				<select class="form-control" name="searchStatus" id="searchStatus">
+					<option value=""> - Estatus - </option>
+					<option th:each="st : ${comboStatus}" th:value="${st}" th:text="${st}" th:selected="${st == evalDto.searchStatus}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select class="form-control" name="searchResultado" id="searchResultado">
+					<option value=""> - Resultado - </option>
+					<option value="Aprobado" th:selected="${evalDto.searchResultado eq 'Aprobado'}">Aprobado</option>
+					<option value="No aprobado" th:selected="${evalDto.searchResultado eq 'No aprobado'}">No Aprobado</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select class="form-control" name="searchManager" id="searchManager">
+					<option value=""> - Manager - </option>
+					<option th:each="st : ${comboManager}" th:value="${st.name}" th:text="${st.name}" th:selected="${st.name == evalDto.searchManager}"></option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-default">Buscar</button>
+			<button type="button" class="btn btn-link" onclick="EVAL.resetSearch();">Limpiar</button>
+		</form>
+		  		</div>
+		  		<div class="col-md-4 text-right">
+		  			<a class="btn btn-default" th:href="@{/manager/evaluaciones/generar}" title="generar evaluaci&oacute;n"><span class="glyphicon glyphicon-duplicate"></span> Generar Evaluaci&oacute;n</a>
+		  		</div>
+		  	</div>
+			
+		
+		  </div>
+		  <div class="panel-body">
+		    
+		<table class="table table-hover" th:unless="${evalDto.totalItems == 0}">
+            	<thead><tr>
+            		<th>Evaluaci&oacute;n</th>
+            		<th>Preguntas</th>
+            		<th>Aplicante</th>
+            		<th>Estatus</th>
+            		<th>Resultado</th>
+            		<th>Fecha de<br/>creaci&oacute;n</th>
+            		<th>Fecha de<br/>expiraci&oacute;n</th>
+            		<th>Calificaci&oacute;n<br/>m&iacute;nima</th>
+            		<th>Calificaci&oacute;n</th>
+            		<th>Tiempo de<br/>evaluaci&oacute;n</th>
+            		<th>Manager</th>
+            	</tr></thead>
+            	<tbody>
+            		<tr th:each="eval : ${evalDto.evaluations}">
+            			<td th:text="${eval.name}"></td>
+            			<td th:text="${eval.questions}"></td>
+            			<td th:text="${eval.applicant}"></td>
+            			<td th:text="${eval.status}"></td>
+            			<td><span th:text="${eval.approvalResult}"
+            			 th:class="${eval.result != null ? eval.result ge eval.passPercent ? 'label label-success' : 'label label-danger' : ''}"></span></td>
+            			<td th:text="${#dates.format(eval.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
+            			<td th:text="${#dates.format(eval.expirationDate, 'dd/MM/yyyy')}"></td>
+            			<td th:text="${eval.passPercent * 100}"></td>
+            			<td th:text="${eval.result != null ? eval.result * 100 : ''}"></td>
+            			<td th:text="${eval.evalTime}"></td>
+            			<td th:text="${eval.manager}"></td>
+            		</tr>
+            	</tbody>
+            </table>
+		
+		<br/>
+		<div class="alert alert-info" th:unless="${evalDto.totalItems != 0}">No se encontraron elementos</div>
+		  </div>
+		  <div class="panel-footer" style="padding:0 1em;">
+				<nav aria-label="Page navigation" th:unless="${evalDto.totalItems == 0}">
+		  <ul class="pagination">
+		    <li th:class="${evalDto.page == 0 ? 'disabled' : ''}">
+		      <a th:onclick="|EVAL.changePage(${evalDto.page - 1});|"  aria-label="Anterior" href="#"
+		      	th:unless="${evalDto.page == 0}">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		      <span aria-hidden="true" th:unless="${evalDto.page != 0}">&laquo;</span>
+		    </li>
+		    <li th:each="pag : ${#numbers.sequence(0, evalDto.totalPages - 1)}"
+		    	th:class="${pag == evalDto.page ? 'active' : ''}">
+		    	<a th:onclick="|EVAL.changePage(${pag});|" th:unless="${pag == evalDto.page}" th:text="${pag + 1}" href="#"></a>
+		    	<span th:text="${pag + 1}" th:unless="${pag != evalDto.page}"></span>
+		    </li>
+		    <li th:class="${evalDto.page == evalDto.totalPages - 1 ? 'disabled' : ''}">
+		      <a th:onclick="|EVAL.changePage(${evalDto.page + 1});|" aria-label="Siguiente"
+		      	th:unless="${evalDto.page == evalDto.totalPages - 1}" href="#">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		      <span aria-hidden="true" th:unless="${evalDto.page != evalDto.totalPages - 1}">&raquo;</span>
+		    </li>
+		  </ul>
+		</nav>
+		</div>
+		</div>
+            
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

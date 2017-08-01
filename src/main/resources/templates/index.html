@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+             
+             <ol class="breadcrumb">
+              <li class="active">Inicio</li>
+            </ol>
+            
+            <div class="panel panel-default">
+			  <div class="panel-heading"><strong>Evaluaciones</strong></div>
+			
+				  <table class="table table-hover" th:unless="${#lists.isEmpty(evaluations)}">
+	                <thead>
+	                    <tr>
+	                        <th>Nombre</th>
+	                        <th>Preguntas</th>
+	                        <th>Fecha de Creaci&oacute;n</th>
+	                        <th>Fecha de Expiraci&oacute;n</th>
+	                        <th>Comenzar</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr th:each="eval : ${evaluations}">
+	                        <td th:text="${eval.name}"></td>
+	                        <td th:text="${eval.questions}"></td>
+	                        <td th:text="${#dates.format(eval.creationDate, 'dd/MM/yyyy')}"></td>
+	                        <td th:text="${#dates.format(eval.expirationDate, 'dd/MM/yyyy')}"></td>
+	                        <td>
+	                            <form method="POST" th:action="@{/evaluacion}">
+	                                <input type="hidden" name="idEvaluation" th:value="${eval.idEvaluation}" />
+	                                <input type="hidden" name="step" value="1" />
+	                                <button type="submit" class="btn btn-default navbar-btn" title="Ir a la evaluaci&oacute;n"><span class="glyphicon glyphicon-arrow-right"></span></button>
+	                            </form>
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	            
+	            <div class="alert alert-info" th:unless="${not #lists.isEmpty(evaluations)}">
+	                No tiene evaluaciones pendientes.
+	            </div>
+			</div>
+            
+            
+            <div class="panel panel-info">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Instrucciones</h3>
+			  </div>
+			  <div class="panel-body">
+			     <ul>
+			         <li>Seleccionar la opci&oacute;n "Comenzar" para iniciar la evaluaci&oacute;n.</li>
+			         <li>Para cada pregunta seleccionar una o m&aacute;s respuestas.</li>
+			         <li>Para avanzar en la evaluaci&oacute;n seleccionar la siguiente p&aacute;gina.</li>
+			         <li>Es posible regresar a preguntas ya contestadas para verificar las respuestas utilizando la barra de paginaci&oacute;n.</li>
+			         <li>Para terminar la evaluaci&oacute;n seleccionar la opci&oacute;n "Finalizar" que se encuentra en la &uacute;ltima p&aacute;gina.</li>
+			     </ul>
+			  </div>
+			</div>
+            
+            
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/layout/header :: common_header"></head>
+<body>
+	<div class="container" id="mainContainer">
+		<div th:replace="fragments/layout/header :: common_logout"></div>
+
+		<ol class="breadcrumb">
+			<li><a href="/evaluaciones">Inicio</a></li>
+			<li><a th:href="@{/manager/examenes/}">Ex&aacute;menes</a></li>
+			<li class="active">Editar</li>
+		</ol>
+		
+		<div th:replace="fragments/layout/header :: common_messages"></div>
+		
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Editar Examen</h3>
+		  </div>
+		  <div class="panel-body">
+		    	<form id="form-edit" class="form" method="POST" action="update">
+		    		<div class="form-group">
+		    			<label for="name">Nombre</label>
+		    			<input type="text" class="form-control" name="name" th:value="${exam.name}" required="required" />		    			
+		    		</div>
+		    		<div class="form-group">
+		    			<label for="questions">N&uacute;mero de preguntas (1 - 300)</label>
+		    			<input type="number" min="1" max="300" class="form-control" name="questions" th:value="${exam.questions}" required="required" />		    			
+		    		</div>
+		    		<div class="form-group">
+		    			<label for="passPercent">Calificaci&oacute;n m&iacute;nima para aprobaci&oacute;n (1 - 100)</label>
+		    			<input type="number" min="1" max="100" class="form-control" name="passPercent" th:value="${exam.passPercent}" required="required" />		    			
+		    		</div>
+		    		<div class="form-group">
+		    			<label for="examMinutes">Minutos para aplicaci&oacute;n (1 - 480)</label>
+		    			<input type="number" min="1" max="480" class="form-control" name="examMinutes" th:value="${exam.examMinutes}" required="required" />		    			
+		    		</div>
+		    		<div class="form-group">
+                    	<label for="idCategories">Categor&iacute;as:</label>
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="row">
+	                                <div class="col-md-5">Todas las Categor&iacute;as</div>
+	                                <div class="col-md-2">&nbsp;</div>
+	                                <div class="col-md-5">Categor&iacute;as Seleccionadas</div>    
+	                            </div>
+	                        </div>
+	                        <div class="col-md-6">
+	                            &nbsp;
+	                        </div>
+	                    </div>
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="row">
+	                                <div class="col-md-5">
+	                                    <select id="all-categories" multiple="multiple" class="form-control">
+	                                    	<option th:each="cat : ${exam.comboCategories}" th:value="${cat.key}" th:text="${cat.value}"></option></select>
+	                                </div>
+	                                <div class="col-md-2">
+	                                    <div class="button-group">
+			                                <button type="button" class="btn btn-primary btn-xs" title="Quitar todas" onclick="EVAL.selectAll('ids-categories', 'all-categories');">
+			                                    <span class="glyphicon glyphicon-fast-backward"></span>
+			                                </button>
+			                                <button type="button" class="btn btn-primary btn-xs" title="Quitar seleccionadas" onclick="EVAL.selectSome('ids-categories', 'all-categories');">
+			                                    <span class="glyphicon glyphicon-step-backward"></span>
+			                                </button>
+			                                <button type="button" class="btn btn-primary btn-xs" title="Agregar seleccionadas" onclick="EVAL.selectSome('all-categories', 'ids-categories');">
+			                                    <span class="glyphicon glyphicon-step-forward"></span>
+			                                </button>
+			                                <button type="button" class="btn btn-primary btn-xs" title="Agregar todas" onclick="EVAL.selectAll('all-categories', 'ids-categories');">
+			                                    <span class="glyphicon glyphicon-fast-forward"></span>
+			                                </button>
+			                            </div>
+	                                </div>
+	                                <div class="col-md-5">
+	                                    <select id="ids-categories" name="idsCategories" multiple="multiple" class="form-control" required="required">
+	                                    	<option th:each="cat : ${exam.categories}" th:value="${cat.idCategory}" th:text="${cat.description}"></option>
+	                                    </select>
+	                                </div>    
+	                            </div>
+	                        </div>
+	                        <div class="col-md-6">
+	                            &nbsp;
+	                        </div>
+	                    </div>
+                </div> 
+                	<input type="hidden" name="idExam" th:value="${exam.idExam}" />
+		    		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    		<button type="button" class="btn btn-primary" onclick="EVAL.beforeSubmit('form-edit', 'ids-categories');" >Editar</button>
+		    	</form>
+		  </div>
+		</div>
+		
+		
+</div>
+	<footer th:replace="fragments/layout/header :: common_footer"></footer>
+</body>
+</html>

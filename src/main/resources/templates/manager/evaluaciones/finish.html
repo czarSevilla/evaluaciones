@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">     
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+             
+             <ol class="breadcrumb">
+              <li><a href="/evaluaciones">Inicio</a></li>
+              <li class="active">Evaluaci&oacute;n</li>
+            </ol>      
+            
+            <div class="alert alert-success" role="alert">
+                <strong><span class="glyphicon glyphicon-ok"></span>&nbsp;&Eacute;xito</strong>&nbsp;<span>Gracias por responder la evaluaci&oacute;n</span>
+            </div>
+            <a class="btn btn-primary" th:href="@{/}">Aceptar</a>
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

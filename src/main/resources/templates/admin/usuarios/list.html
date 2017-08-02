@@ -7,7 +7,7 @@
              <div th:replace="fragments/layout/header :: common_logout"></div>
                    
             <ol class="breadcrumb">
-			  <li><a href="/evaluaciones">Inicio</a></li>
+			  <li><a th:href="@{/}">Inicio</a></li>
 			  <li class="active">Usuarios</li>
 			</ol>
 			
@@ -52,7 +52,7 @@
 					<th>Activo</th>
 					<th>Bloqueado</th>					
 					<th>Fecha de expiraci&oacute;n</th>
-					<th>Roles</th>
+					<th>Rol</th>
 					<th>&nbsp;</th>
 					<th>&nbsp;</th>
 					<th>&nbsp;</th>

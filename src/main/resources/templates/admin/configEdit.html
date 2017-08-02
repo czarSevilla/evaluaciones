@@ -8,8 +8,8 @@
 		<div th:replace="fragments/layout/header :: common_logout"></div>
 
 		<ol class="breadcrumb">
-              <li><a href="/evaluaciones">Inicio</a></li>
-              <li><a href="/admin/configuracion">Configuraci&oacute;n</a></li>
+              <li><a th:href="@{/}">Inicio</a></li>
+              <li><a th:href="@{/admin/configuracion}">Configuraci&oacute;n</a></li>
               <li class="active">Editar</li>
             </ol>
 		

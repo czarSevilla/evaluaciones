@@ -8,7 +8,7 @@
 		<div th:replace="fragments/layout/header :: common_logout"></div>
 
 		<ol class="breadcrumb">
-			<li><a href="/evaluaciones">Inicio</a></li>
+			<li><a th:href="@{/}">Inicio</a></li>
 			<li><a th:href="@{/manager/examenes/}">Ex&aacute;menes</a></li>
 			<li class="active">Editar</li>
 		</ol>

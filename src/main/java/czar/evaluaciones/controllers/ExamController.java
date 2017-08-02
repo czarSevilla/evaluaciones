@@ -3,6 +3,8 @@ package czar.evaluaciones.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import czar.evaluaciones.dtos.ExamDto;
+import czar.evaluaciones.entities.Configuration;
 import czar.evaluaciones.entities.Exam;
+import czar.evaluaciones.enums.Config;
 import czar.evaluaciones.exceptions.ServiceException;
 import czar.evaluaciones.services.ComboService;
+import czar.evaluaciones.services.ConfigService;
 import czar.evaluaciones.services.ExamService;
 
 
@@ -26,6 +31,9 @@ public class ExamController {
     
     @Autowired
     private ComboService comboService;
+    
+    @Autowired
+    private ConfigService configService;
     
     private static final String MESSAGE = "message";
     
@@ -48,8 +56,13 @@ public class ExamController {
     
     @RequestMapping(value = "/agregar", method = GET)
     public String add(Model model) {
-    	model.addAttribute("categories", comboService.getComboCategories());
-        model.addAttribute(EXAM, new ExamDto());
+    	   model.addAttribute("categories", comboService.getComboCategories());
+    	   ExamDto exam = new ExamDto();
+        Configuration passValueConfig = configService.findByKey(Config.PASS_VALUE.toString());
+        Configuration timeExam = configService.findByKey(Config.EXAM_MINUTES.toString());
+        exam.setPassPercent(new BigDecimal(passValueConfig.getValue()));
+    	   exam.setExamMinutes(Integer.valueOf(timeExam.getValue()));
+        model.addAttribute(EXAM, exam);
         return ADD;
     }
     

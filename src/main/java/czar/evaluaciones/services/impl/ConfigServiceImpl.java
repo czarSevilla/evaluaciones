@@ -26,6 +26,11 @@ public class ConfigServiceImpl implements ConfigService {
 	public Configuration findById(Long idConfiguration) {
 		return configurationRepository.findOne(idConfiguration);
 	}
+	
+	@Override
+     public Configuration findByKey(String key) {
+          return configurationRepository.findByKey(key);
+     }
 
 	@Override
 	public void save(Configuration configuration) throws ServiceException {

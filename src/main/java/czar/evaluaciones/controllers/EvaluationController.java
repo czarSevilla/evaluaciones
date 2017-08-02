@@ -18,8 +18,11 @@ import czar.evaluaciones.dtos.EvaluationDto;
 import czar.evaluaciones.dtos.GenerateEvalDto;
 import czar.evaluaciones.dtos.UserDto;
 import czar.evaluaciones.dtos.ViewEvalDto;
+import czar.evaluaciones.entities.Configuration;
+import czar.evaluaciones.enums.Config;
 import czar.evaluaciones.enums.EvaluationStatus;
 import czar.evaluaciones.services.ComboService;
+import czar.evaluaciones.services.ConfigService;
 import czar.evaluaciones.services.EvaluationService;
 import czar.evaluaciones.services.UserService;
 import czar.evaluaciones.utils.SecurityUtils;
@@ -35,6 +38,9 @@ public class EvaluationController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private ConfigService configService;
     
     @RequestMapping(value = {"/manager/evaluaciones", "/manager/evaluaciones/"}, method = {GET, POST})
     public String list(ViewEvalDto viewEvalDto, Model model) {
@@ -61,6 +67,10 @@ public class EvaluationController {
             } else {
                 model.addAttribute("exams", comboService.getComboExams());
             }
+            Configuration passValueConfig = configService.findByKey(Config.PASS_VALUE.toString());
+            Configuration timeExam = configService.findByKey(Config.EXAM_MINUTES.toString());
+            form.setPassPercent(Integer.valueOf(passValueConfig.getValue()));
+            form.setEvalMinutes(Integer.valueOf(timeExam.getValue()));
             model.addAttribute("form", form);
             return "manager/evaluaciones/step2";
         } else {

@@ -17,6 +17,7 @@ public class Configuration implements Serializable {
     private Long idConfiguration;
     private String key;
     private String value;
+    private String description;
     
     public Configuration() {
      // Constructor default
@@ -50,4 +51,13 @@ public class Configuration implements Serializable {
     public void setValue(String value) {
         this.value = value;
     }
+
+   @Column(name = "config_desc", nullable = false)
+   public String getDescription() {
+      return description;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
 }

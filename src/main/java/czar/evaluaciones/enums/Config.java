@@ -6,5 +6,6 @@ public enum Config {
     EXAM_MINUTES,
     QUESTIONS_X_PAGE,
 	ROWS_X_PAGE,
-	MAX_TAG_SIZE;
+	MAX_TAG_SIZE,
+	PASS_VALUE;
 }

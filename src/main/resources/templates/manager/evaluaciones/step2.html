@@ -83,11 +83,11 @@
                 </div>
                 <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
                     <label for="passPercent">Porcentaje de aciertos para aprobaci&oacute;n:</label>
-                    <input type="number" name="passPercent" required="required" value="60" class="form-control" min="60" max="100" /> 
+                    <input type="number" name="passPercent" required="required" th:value="${form.passPercent}" class="form-control" min="60" max="100" /> 
                 </div>
                 <div class="form-group" th:if="${not #lists.isEmpty(categories)}">
                     <label for="evalMinutes">Tiempo de aplicaci&oacute;n en minutos:</label>
-                    <input type="number" name="evalMinutes" required="required" value="120" class="form-control" min="1" max="300" /> 
+                    <input type="number" name="evalMinutes" required="required" th:value="${form.evalMinutes}" class="form-control" min="1" max="300" /> 
                 </div>
                 <div class="form-group">
                     <label for="nameApplicant">Nombre del aplicante:</label>

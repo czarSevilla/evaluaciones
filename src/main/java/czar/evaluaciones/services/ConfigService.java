@@ -11,5 +11,7 @@ public interface ConfigService {
 	
 	Configuration findById(Long idConfiguration);
 	
+	Configuration findByKey(String key);
+	
 	void save(Configuration configuration) throws ServiceException;
 }

@@ -24,6 +24,7 @@
 				<tr>
 					<th>Clave</th>
 					<th>Valor</th>
+                    <th>Descripci&oacute;n</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -31,6 +32,7 @@
 				<tr th:each="conf : ${configs}">
 					<td th:text="${conf.key}"></td>
 					<td th:text="${conf.value}"></td>
+                    <td th:text="${conf.description}"></td>
 					<td><button type="button" class="btn btn-default btn-sm"
 							title="editar" th:onclick='|EVAL.edit("idConfiguration", ${conf.idConfiguration});|'>
 							<span class="glyphicon glyphicon-pencil"></span>

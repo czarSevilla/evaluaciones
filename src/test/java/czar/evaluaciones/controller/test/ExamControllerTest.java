@@ -30,7 +30,10 @@ import czar.evaluaciones.Application;
 import czar.evaluaciones.MvcConfig;
 import czar.evaluaciones.controllers.ExamController;
 import czar.evaluaciones.dtos.ExamDto;
+import czar.evaluaciones.entities.Configuration;
+import czar.evaluaciones.enums.Config;
 import czar.evaluaciones.services.ComboService;
+import czar.evaluaciones.services.ConfigService;
 import czar.evaluaciones.services.ExamService;
 
 @RunWith(SpringRunner.class)
@@ -47,6 +50,9 @@ public class ExamControllerTest {
 	@MockBean
 	private ComboService comboService;
 	
+	@MockBean
+	private ConfigService configService;
+	
 	private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository;
 	
 	private CsrfToken csrfToken;
@@ -59,6 +65,17 @@ public class ExamControllerTest {
 		ExamDto value = new ExamDto();
 		when(examService.find(any(ExamDto.class))).thenReturn(value);
 		when(examService.getById(eq(1L))).thenReturn(value);
+		
+		Configuration configPassValue = new Configuration();
+          configPassValue.setKey(Config.PASS_VALUE.toString());
+          configPassValue.setValue("60");
+          
+          Configuration configExamMinutes = new Configuration();
+          configExamMinutes.setKey(Config.EXAM_MINUTES.toString());
+          configExamMinutes.setValue("120");
+          
+          when(configService.findByKey(eq(Config.PASS_VALUE.toString()))).thenReturn(configPassValue);
+          when(configService.findByKey(eq(Config.EXAM_MINUTES.toString()))).thenReturn(configExamMinutes);
 	}
 	
 	@Test

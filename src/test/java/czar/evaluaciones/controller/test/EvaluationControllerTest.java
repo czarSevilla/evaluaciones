@@ -32,7 +32,10 @@ import czar.evaluaciones.controllers.EvaluationController;
 import czar.evaluaciones.dtos.EvaluationDto;
 import czar.evaluaciones.dtos.PaginadorDto;
 import czar.evaluaciones.dtos.ViewEvalDto;
+import czar.evaluaciones.entities.Configuration;
+import czar.evaluaciones.enums.Config;
 import czar.evaluaciones.services.ComboService;
+import czar.evaluaciones.services.ConfigService;
 import czar.evaluaciones.services.EvaluationService;
 import czar.evaluaciones.services.UserService;
 import czar.evaluaciones.utils.DateUtils;
@@ -53,6 +56,9 @@ public class EvaluationControllerTest {
 	
 	@MockBean
 	private UserService userService;
+	
+	@MockBean
+	private ConfigService configService;
 	
 	private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository;
 	
@@ -78,6 +84,17 @@ public class EvaluationControllerTest {
 		EvaluationDto dto2 = new EvaluationDto();
 		dto2.setFinish(true);
 		when(evaluationService.loadEvaluation(eq(3L), anyLong(), any(EvaluationDto.class))).thenReturn(dto2);
+		
+		Configuration configPassValue = new Configuration();
+		configPassValue.setKey(Config.PASS_VALUE.toString());
+		configPassValue.setValue("60");
+		
+		Configuration configExamMinutes = new Configuration();
+		configExamMinutes.setKey(Config.EXAM_MINUTES.toString());
+		configExamMinutes.setValue("120");
+		
+		when(configService.findByKey(eq(Config.PASS_VALUE.toString()))).thenReturn(configPassValue);
+		when(configService.findByKey(eq(Config.EXAM_MINUTES.toString()))).thenReturn(configExamMinutes);
 	}
 	
 	@Test

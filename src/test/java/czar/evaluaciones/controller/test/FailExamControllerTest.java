@@ -28,6 +28,7 @@ import czar.evaluaciones.controllers.ExamController;
 import czar.evaluaciones.dtos.ExamDto;
 import czar.evaluaciones.exceptions.ServiceException;
 import czar.evaluaciones.services.ComboService;
+import czar.evaluaciones.services.ConfigService;
 import czar.evaluaciones.services.ExamService;
 
 @RunWith(SpringRunner.class)
@@ -43,6 +44,9 @@ public class FailExamControllerTest {
 	
 	@MockBean
 	private ComboService comboService;
+	
+	@MockBean
+     private ConfigService configService;
 	
 	private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository;
 	

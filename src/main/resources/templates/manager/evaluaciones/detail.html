@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="fragments/layout/header :: common_header"></head>
+    <body>
+        <div class="container" id="mainContainer">     
+             <div th:replace="fragments/layout/header :: common_logout"></div>
+             
+             <ol class="breadcrumb">
+              <li><a th:href="@{/}">Inicio</a></li>
+              <li><a th:href="@{/manager/evaluaciones}" >Evaluaciones</a></li>
+              <li class="active">Consulta de Evaluaci&oacute;n</li>
+            </ol>      
+            Consulta de evaluaci&oacute;n
+            
+            <form>
+                <div class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" name="id" th:value="${evaluation.idEvaluation}" readonly="readonly"  class="form-control"/>
+                </div>
+            
+            </form>
+            
+            
+            
+        </div>
+        <footer th:replace="fragments/layout/header :: common_footer"></footer>
+    </body>
+</html>

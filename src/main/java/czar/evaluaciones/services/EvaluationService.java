@@ -15,5 +15,7 @@ public interface EvaluationService {
     
     EvaluationDto loadEvaluation(Long idEvaluation, Long idApplicant, EvaluationDto prev);
     
+    EvaluationDto loadEvaluation(Long idEvaluation);
+    
     ViewEvalDto findEvaluations(ViewEvalDto viewEvalDto);
 }

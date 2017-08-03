@@ -42,7 +42,7 @@
 			</div>
 			<div class="form-group">
 				<select class="form-control" name="searchManager" id="searchManager">
-					<option value=""> - Manager - </option>
+					<option value=""> - Evaluador - </option>
 					<option th:each="st : ${comboManager}" th:value="${st.name}" th:text="${st.name}" th:selected="${st.name == evalDto.searchManager}"></option>
 				</select>
 			</div>
@@ -71,7 +71,8 @@
             		<th>Calificaci&oacute;n<br/>m&iacute;nima</th>
             		<th>Calificaci&oacute;n</th>
             		<th>Tiempo de<br/>evaluaci&oacute;n</th>
-            		<th>Manager</th>
+            		<th>Evaluador</th>
+                    <th>&nbsp;</th>
             	</tr></thead>
             	<tbody>
             		<tr th:each="eval : ${evalDto.evaluations}">
@@ -87,9 +88,22 @@
             			<td th:text="${eval.result != null ? eval.result * 100 : ''}"></td>
             			<td th:text="${eval.evalTime}"></td>
             			<td th:text="${eval.manager}"></td>
+                        <td>
+                        
+                        <button type="button" class="btn btn-default btn-sm"
+                            title="ver" th:onclick='|EVAL.edit("idEvaluation", ${eval.idEvaluation});|'>
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        
+                        </td>
             		</tr>
             	</tbody>
             </table>
+            
+            <form method="POST" id="edit-form" th:action="@{/manager/evaluaciones/consultar}" >
+               <input type="hidden" name="idEvaluation" id="idEvaluation" />
+               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+           </form>
 		
 		<br/>
 		<div class="alert alert-info" th:unless="${evalDto.totalItems != 0}">No se encontraron elementos</div>

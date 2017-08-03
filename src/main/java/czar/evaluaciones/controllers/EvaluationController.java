@@ -99,5 +99,12 @@ public class EvaluationController {
         model.addAttribute("evaluationDto", current);
         return "manager/evaluaciones/evaluacion";
     }
+    
+    @RequestMapping(value = "/manager/evaluaciones/consultar", method = POST)
+    public String view(EvaluationDto form, Model model) {
+       EvaluationDto evaluation = evaluationService.loadEvaluation(form.getIdEvaluation());
+       model.addAttribute("evaluation", evaluation);
+       return "manager/evaluaciones/detail";
+    }
 
 }

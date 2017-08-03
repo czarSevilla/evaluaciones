@@ -342,4 +342,34 @@ public class EvaluationServiceImpl implements EvaluationService {
 		return result;
 	}
 
+   @Override
+   public EvaluationDto loadEvaluation(Long idEvaluation) {
+      EvaluationDto eval = new EvaluationDto();
+      
+      Evaluation evaluation = evaluationRepository.findOne(idEvaluation);
+      
+      if (evaluation == null) {
+          eval.setError(true);
+          eval.setErrorMessage("La evaluaci\u00F3n no se encontr\u00F3");
+          return eval;
+      }
+      
+      BeanUtils.copyProperties(evaluation, eval);
+      
+      Pageable pageable = new PageRequest(1, evaluation.getQuestions(), Direction.ASC, "idEvaluationQuestion");
+      Page<EvaluationQuestion> pageEvalQ = evaluationQuestionRepository.findByIdEvaluation(idEvaluation, pageable);
+      eval.setQuestionList(pageEvalQ.getContent());
+      PaginadorDto paginador = new PaginadorDto();
+      paginador.setDirection("ASC");
+      paginador.setPage(pageEvalQ.getNumber());
+      paginador.setSize(pageEvalQ.getSize());
+      paginador.setTotalItems(pageEvalQ.getTotalElements());
+      paginador.setTotalPages(pageEvalQ.getTotalPages());
+      eval.setPaginador(paginador);
+      
+      
+      
+      return eval;
+   }
+
 }

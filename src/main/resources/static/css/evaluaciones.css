@@ -7,4 +7,26 @@
 	font-weight: bold;
 }
 
+.correct-response {
+	display:inline-block;
+    width: 32px;
+    height: 32px;
+    float: right;
+    background-image: url("images/result.png");
+    background-position: 32px 0px;
+}
+
+.fail-response {
+	display:inline-block;
+	width: 32px;
+	height: 32px;
+	float: right;
+	background-image: url("images/result.png");
+	background-position: 0px 0px;
+}
+
+.answer-response ul li span {
+	color: #337AB7;
+}
+
 

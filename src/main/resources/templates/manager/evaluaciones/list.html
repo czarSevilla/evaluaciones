@@ -85,7 +85,7 @@
             			<td th:text="${#dates.format(eval.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
             			<td th:text="${#dates.format(eval.expirationDate, 'dd/MM/yyyy')}"></td>
             			<td th:text="${eval.passPercent * 100}"></td>
-            			<td th:text="${eval.result != null ? eval.result * 100 : ''}"></td>
+            			<td th:text="${eval.result != null ? #numbers.formatDecimal(eval.result * 100,2,2) : ''}"></td>
             			<td th:text="${eval.evalTime}"></td>
             			<td th:text="${eval.manager}"></td>
                         <td>

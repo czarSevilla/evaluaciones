@@ -11,13 +11,45 @@
               <li><a th:href="@{/manager/evaluaciones}" >Evaluaciones</a></li>
               <li class="active">Consulta de Evaluaci&oacute;n</li>
             </ol>      
-            Consulta de evaluaci&oacute;n
             
             <form>
                 <div class="form-group">
-                    <label for="id">ID</label>
-                    <input type="text" name="id" th:value="${evaluation.idEvaluation}" readonly="readonly"  class="form-control"/>
+                    <label for="name">Nombre de la evaluaci&oacute;n</label>
+                    <input type="text" name="name" th:value="${evaluation.name}" readonly="readonly"  class="form-control"/>
                 </div>
+                <div class="form-group">
+                    <label for="aplicant">Nombre del aplicante</label>
+                    <input type="text" name="aplicant" th:value="${evaluation.aplicant}" readonly="readonly"  class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="creationDate">Fecha de creaci&oacute;n</label>
+                    <input type="text" name="creationDate" th:value="${#dates.format(evaluation.creationDate, 'dd/MM/yyyy HH:mm')}" readonly="readonly"  class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="result">Calificaci&oacute;n</label>
+                    <input type="text" name="result" th:value="${#numbers.formatDecimal(evaluation.result * 100,2,2)}" readonly="readonly"  class="form-control"/>
+                </div>
+                
+                <div class="form-group">
+                    <label for="respuestas">Respuestas</label>
+                    <div class="panel panel-default" th:each="q : ${evaluation.questionResponses}">
+                       <div class="panel-body">
+                           <span th:class="${q.correct ? 'correct-response' : 'fail-response'}"></span>
+                           <p th:text="${q.question.text}"></p>
+                           <ul>
+                               <li th:each="ans : ${q.responses}"><span th:text="${ans.answer.text}" th:class="${ans.answer.correct ? 'resp-correct' : ''}"></span></li>
+                           </ul>
+                           <div class="answer-response">
+                               Respuesta:
+                               <ul>
+                                   <li th:each="ans : ${q.responses}" th:if="${ans.idEvaluationAnswer}"><span th:text="${ans.answer.text}"></span></li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
+                </div>
+                
+                
             
             </form>
             

@@ -39,6 +39,9 @@ public class EvaluationDto implements Serializable {
     private boolean timeout;
     private List<EvaluationQuestion> questionList;
     private PaginadorDto paginador;
+    private List<EvaluationQuestionDto> questionResponses;
+    private String aplicant;
+    private BigDecimal result;
     
 	public EvaluationDto() {
 	 // Constructor default
@@ -243,4 +246,28 @@ public class EvaluationDto implements Serializable {
 	public void setPaginador(PaginadorDto paginador) {
 		this.paginador = paginador;
 	}
+
+   public List<EvaluationQuestionDto> getQuestionResponses() {
+      return questionResponses;
+   }
+
+   public void setQuestionResponses(List<EvaluationQuestionDto> questionResponses) {
+      this.questionResponses = questionResponses;
+   }
+
+   public String getAplicant() {
+      return aplicant;
+   }
+
+   public void setAplicant(String aplicant) {
+      this.aplicant = aplicant;
+   }
+
+   public BigDecimal getResult() {
+      return result;
+   }
+
+   public void setResult(BigDecimal result) {
+      this.result = result;
+   }
 }

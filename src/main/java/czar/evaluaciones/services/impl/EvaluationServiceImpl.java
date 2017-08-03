@@ -36,10 +36,13 @@ import org.springframework.stereotype.Service;
 
 import com.mysql.jdbc.StringUtils;
 
+import czar.evaluaciones.dtos.EvaluationAnswerDto;
 import czar.evaluaciones.dtos.EvaluationDto;
+import czar.evaluaciones.dtos.EvaluationQuestionDto;
 import czar.evaluaciones.dtos.GenerateEvalDto;
 import czar.evaluaciones.dtos.PaginadorDto;
 import czar.evaluaciones.dtos.ViewEvalDto;
+import czar.evaluaciones.entities.Answer;
 import czar.evaluaciones.entities.Category;
 import czar.evaluaciones.entities.Evaluation;
 import czar.evaluaciones.entities.EvaluationAnswer;
@@ -353,23 +356,60 @@ public class EvaluationServiceImpl implements EvaluationService {
           eval.setErrorMessage("La evaluaci\u00F3n no se encontr\u00F3");
           return eval;
       }
-      
+
       BeanUtils.copyProperties(evaluation, eval);
+
+      User aplicant = userRepository.findOne(evaluation.getIdApplicant());
       
-      Pageable pageable = new PageRequest(1, evaluation.getQuestions(), Direction.ASC, "idEvaluationQuestion");
+      eval.setAplicant(aplicant.getName());
+      
+      Pageable pageable = new PageRequest(0, evaluation.getQuestions(), Direction.ASC, "idEvaluationQuestion");
       Page<EvaluationQuestion> pageEvalQ = evaluationQuestionRepository.findByIdEvaluation(idEvaluation, pageable);
-      eval.setQuestionList(pageEvalQ.getContent());
-      PaginadorDto paginador = new PaginadorDto();
-      paginador.setDirection("ASC");
-      paginador.setPage(pageEvalQ.getNumber());
-      paginador.setSize(pageEvalQ.getSize());
-      paginador.setTotalItems(pageEvalQ.getTotalElements());
-      paginador.setTotalPages(pageEvalQ.getTotalPages());
-      eval.setPaginador(paginador);
+      List<EvaluationQuestionDto> questionResponses = new ArrayList<>();
       
+      for (EvaluationQuestion eq : pageEvalQ) {
+         EvaluationQuestionDto dto = new EvaluationQuestionDto();
+         BeanUtils.copyProperties(eq, dto);
+         List<EvaluationAnswerDto> responsesDtos = buildResponses(eq.getIdEvaluationQuestion(), eq.getQuestion().getAnswers());
+         dto.setResponses(responsesDtos);
+         dto.setCorrect(isCorrectResponse(responsesDtos));
+         questionResponses.add(dto);
+      }
       
+      eval.setQuestionResponses(questionResponses);
       
       return eval;
+   }
+   
+   private List<EvaluationAnswerDto> buildResponses(Long idEvauationQuestion, Set<Answer> anwsers) {
+      List<EvaluationAnswerDto> responsesDtos = new ArrayList<>();
+      List<EvaluationAnswer> responses = evaluationAnswerRepository.findByIdEvaluationQuestion(idEvauationQuestion);
+      for (Answer answer : anwsers) {
+         EvaluationAnswerDto ansDto = new EvaluationAnswerDto();
+         for (EvaluationAnswer response : responses) {
+            if (answer.getIdAnswer().equals(response.getIdAnswer())) {
+               BeanUtils.copyProperties(response, ansDto);
+               break;
+            }
+         }
+         ansDto.setAnswer(answer);  
+         responsesDtos.add(ansDto);
+      }
+      return responsesDtos;
+   }
+   
+   private boolean isCorrectResponse(List<EvaluationAnswerDto> responses) {
+      int pointAnswer = 0;
+      int pointResponse = 0;
+      for (EvaluationAnswerDto response : responses) {
+         if (response.getAnswer().isCorrect()) {
+            pointAnswer++;
+         }
+         if (response.isCorrect()) {
+            pointResponse++;
+         }
+      }
+      return pointAnswer == pointResponse;
    }
 
 }

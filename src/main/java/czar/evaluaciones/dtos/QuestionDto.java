@@ -31,6 +31,7 @@ public class QuestionDto extends Question implements Serializable {
     private List<String> categoriesDescriptions;
     private QuestionStatus searchStatus;
     private String searchCategory;
+    private String selected;
     
     public QuestionDto() {
         comboStatus = Arrays.asList(REVISION, ACTIVA, OBSOLETA);
@@ -131,4 +132,16 @@ public class QuestionDto extends Question implements Serializable {
 	public void setSearchCategory(String searchCategory) {
 		this.searchCategory = searchCategory;
 	}
+
+   public String getSelected() {
+      return selected;
+   }
+
+   public void setSelected(String selected) {
+      this.selected = selected;
+   }
+
+
+	
+	
 }

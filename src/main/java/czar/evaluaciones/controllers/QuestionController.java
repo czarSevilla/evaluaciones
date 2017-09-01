@@ -39,6 +39,8 @@ public class QuestionController {
 	
 	private static final String ADD = "manager/preguntas/add";
 	
+	private static final String ADD_OPENED = "manager/preguntas/addOpened";
+	
 	private static final String EDIT = "manager/preguntas/edit";
 	
     @RequestMapping(value = {"", "/"}, method = {POST, GET})
@@ -48,6 +50,15 @@ public class QuestionController {
     	model.addAttribute("cloud", categoryService.listCategoryCloud());
         return "manager/preguntas/list";
     }
+    
+    @RequestMapping(value = "/agregar_abierta", method = GET)
+    public String addOpenType(Model model) {
+     model.addAttribute(QUESTION, new QuestionDto());
+     return ADD_OPENED;
+    }
+    
+
+    
     
     @RequestMapping(value = "/agregar", method = GET)
     public String add(Model model) {

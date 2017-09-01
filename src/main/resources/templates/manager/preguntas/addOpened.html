@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/layout/header :: common_header"></head>
+<body>
+   <div class="container" id="mainContainer">
+      <div th:replace="fragments/layout/header :: common_logout"></div>
+
+      <ol class="breadcrumb">
+         <li><a th:href="@{/}">Inicio</a></li>
+         <li><a th:href="@{/manager/preguntas}">Preguntas</a></li>
+         <li class="active">Agregar</li>
+      </ol>
+
+      <div th:replace="fragments/layout/header :: common_messages"></div>
+
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Agregar Pregunta</h3>
+         </div>
+         <div class="panel-body">
+            <form class="form" method="POST" enctype="multipart/form-data">
+               <div class="form-group">
+                  <label for="text">Texto</label> <input type="text" class="form-control" name="text" th:value="${question.text}" required="required" />
+               </div>
+               <div class="form-group">
+                  <div class="radio">
+                     <label><input type="radio" name="opt" value="text" onchange="EVAL.toggleBody(this.value)" />Texto</label> 
+                     <label><input type="radio" name="opt" value="imgs" onchange="EVAL.toggleBody(this.value)" />Imagen</label>
+                  </div>
+
+               </div>
+
+               <div class="row" id="texto" hidden="true">
+                  <div class="col-md-6">
+                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <div class="form-group">
+                              <label for="body">Cuerpo</label>
+                              <textarea th:text="${question.body}" name="body" cols="90" rows="6" class="form-control"></textarea>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" id="archivo" hidden="true">
+                  <div class="col-md-6">
+                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <div class="form-group">
+                              <label for="text">Selecciona el archivo: </label> <input name="imagen" type="file" accept="image/png,image/jpeg,image/gif" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+
+               <div class="row">
+                  <div class="col-md-6">
+
+                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <div class="form-group">
+                              <label for="category">Categor&iacute;a</label> <input type="text" class="form-control" id="category-description"
+                                 placeholder="Categor&iacute;a" />
+                           </div>
+                           <button type="button" class="btn btn-default" onclick="EVAL.addCategory();">Agregar</button>
+                        </div>
+                        <div class="panel-body" id="body-categories">
+                           <div class="row category-item" th:each="cat : ${question.categoriesDescriptions}"
+                              th:unless="${question.categoriesDescriptions == null}">
+                              <div class="col-md-10 category-description" th:text="${cat}"></div>
+                              <div class="col-md-1">
+                                 <input type="hidden" name="categoriesDescriptions" th:value="${cat}" />
+                                 <button type="button" class="btn btn-default btn-xs" onclick="EVAL.removeCategory(this);">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+               <button type="submit" class="btn btn-primary">Agregar</button>
+            </form>
+         </div>
+      </div>
+
+
+
+   </div>
+
+   <div class="row answer-item" id="answer-template" style="display: none;">
+      <div class="col-md-9 answer-text"></div>
+      <div class="col-md-1 answer-correct-ok">
+         <span class="glyphicon glyphicon-ok"></span>
+      </div>
+      <div class="col-md-1 answer-correct-no">
+         <span class="glyphicon glyphicon-minus"></span>
+      </div>
+      <div class="col-md-1">
+         <input type="hidden" name="answersTexts" /> <input type="hidden" name="answersCorrects" />
+         <button type="button" class="btn btn-default btn-xs" onclick="EVAL.removeAnswer(this);">
+            <span class="glyphicon glyphicon-remove"></span>
+         </button>
+      </div>
+   </div>
+
+   <div class="row category-item" id="category-template" style="display: none;">
+      <div class="col-md-10 category-description"></div>
+      <div class="col-md-1">
+         <input type="hidden" name="categoriesDescriptions" />
+         <button type="button" class="btn btn-default btn-xs" onclick="EVAL.removeCategory(this);">
+            <span class="glyphicon glyphicon-remove"></span>
+         </button>
+      </div>
+   </div>
+
+   <footer th:replace="fragments/layout/header :: common_footer"></footer>
+   <script type="text/javascript">
+		$descField = $("#category-description");
+		$descField.autocomplete({
+			source: function(request, response) {
+				$.ajax({
+					url: '/manager/categorias/find/' + $descField.val(),
+					method: 'GET',
+					cache: false,
+					contentType: 'application/json',
+					dataType: 'json',
+					success: function(data) {
+						response($.map(data, function(item){
+							return {
+								label: item.description,
+								value: item.description
+							};
+						}));
+					}
+				});
+			},
+			minLength: 3
+		});
+	</script>
+</body>
+</html>

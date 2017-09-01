@@ -139,3 +139,16 @@ EVAL.resetSearch = function() {
 	$('#searchManager option:first').attr('selected', 'selected');
 	$('#form-eval').submit();
 }
+
+EVAL.toggleBody = function(tipo){
+	if(tipo == "imgs"){
+		$("#archivo").show();
+		$("#texto").hide();
+	}
+	else{
+		$("#archivo").hide();
+		$("#texto").show();
+		
+	}
+	
+}

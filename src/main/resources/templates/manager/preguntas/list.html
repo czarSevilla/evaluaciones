@@ -32,6 +32,25 @@
 			    </div>
 			  </div>
 			</div>
+         
+         <div class="modal fade" id="modal-seleccion" tabindex="-2" role="dialog" aria-labelledby="modal-cuerpo-label">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="modal-cuerpo-label">Selecci&oacute;n de tipo de pregunta</h4>
+			      </div>
+			      <div class="modal-body">
+			        <a class="btn btn-default" th:href="@{/manager/preguntas/agregar}" title="Agregar"><span class="glyphicon glyphicon-plus"></span>&nbsp;Opci&oacute;n M&uacute;ltiple</a>
+                <a class="btn btn-default" th:href="@{/manager/preguntas/agregar_abierta}" title="Agregar"><span class="glyphicon glyphicon-plus"></span>&nbsp;Abierta</a>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+         </div>
+         
 		
 		<div class="panel panel-default">
 		  <div class="panel-heading">			
@@ -57,8 +76,9 @@
 		</form>
 		  		</div>
 		  		<div class="col-md-4 text-right">
-		  			<a class="btn btn-default" th:href="@{/manager/preguntas/agregar}" title="Agregar"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</a>
-		  		</div>
+		  			
+                    <button type="button" class="btn btn-default btn-sm" data-target="#modal-seleccion" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span>Agregar</button>
+               </div>
 		  	</div>
 			
 		

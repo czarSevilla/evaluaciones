@@ -13,7 +13,7 @@ import czar.evaluaciones.entities.User;
 
 public class SecurityUtils {
 	
-	private static final Pattern pwdPattern = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})");
+	private static final Pattern pwdPattern = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20})");
 	
 	private static final String CHAR_ARRAY = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&*-0123456789";
     

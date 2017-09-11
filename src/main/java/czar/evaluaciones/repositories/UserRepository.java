@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query("select u from User u join u.authorities a where a.authority in (:roles)")
     Set<User> findByActiveRoles(@Param("roles") String... roles);
+    
+    User findOneByEmail(String email);
 }

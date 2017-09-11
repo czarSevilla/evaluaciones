@@ -54,9 +54,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private NotificationRepository notificationRepository;
     
-    private static final String INVALID_MSG = "El password debe tener una longitud de 6 a 20 caracteres, incluir al menos un n\u00FAmero, una letra may\u00FAscula y un caracter especial @#$%";
+    private static final String INVALID_MSG = "El password debe tener una longitud de 8 a 20 caracteres, incluir al menos un n\u00FAmero, una letra may\u00FAscula y un caracter especial @#$%";
     
     private static final String NOT_MATCH = "El password no coincide con la verificaci\u00F3n";
+    
+    private static final String EMAIL_EXISTS = "Ya existe un usuario con el email proporcionado";
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -138,6 +140,10 @@ public class UserServiceImpl implements UserService {
 				}
 				if (!SecurityUtils.isValidPassword(userDto.getPassword())) {
 					throw new ServiceException(INVALID_MSG);
+				}
+				User userByEmail = userRepository.findOneByEmail(userDto.getEmail());
+				if (userByEmail != null) {
+				   throw new ServiceException(EMAIL_EXISTS);
 				}
 				BeanUtils.copyProperties(userDto, user);
 				user.setActive(true);

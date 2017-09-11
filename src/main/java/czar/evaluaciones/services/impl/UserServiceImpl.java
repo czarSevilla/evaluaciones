@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private NotificationRepository notificationRepository;
     
-    private static final String INVALID_MSG = "El password debe tener una longitud de 8 a 20 caracteres, incluir al menos un n\u00FAmero, una letra may\u00FAscula y un caracter especial @#$%";
+    private static final String INVALID_MSG = "El password debe tener una longitud de 8 a 20 caracteres, incluir al menos un n\u00FAmero, una letra may\u00FAscula y un caracter especial !@#$%&*-";
     
     private static final String NOT_MATCH = "El password no coincide con la verificaci\u00F3n";
     

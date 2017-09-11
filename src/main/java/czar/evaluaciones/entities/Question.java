@@ -38,6 +38,7 @@ public class Question implements Serializable {
     private Set<Category> categories;
     private Set<Answer> answers;
     private QuestionStatus status;
+    private String image;
     
     public Question() {
         categories = new HashSet<>();
